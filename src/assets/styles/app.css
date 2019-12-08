@@ -44,7 +44,7 @@ body {
 }
 
 .blog-container:nth-of-type(1) {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .blog-image {
@@ -91,4 +91,12 @@ body {
     margin-top: 15px;
     border: .2px solid white;
     padding: 4px;
+}
+
+.blog-nav-bar {
+    height: 45px;
+    padding-top: 10px;
+    width: 92%;
+    display: flex;
+    justify-content: space-between;
 }
