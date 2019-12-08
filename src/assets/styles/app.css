@@ -1,0 +1,22 @@
+body {
+    background: #36D1DC;
+    background: -webkit-linear-gradient(to left, #5B86E5, #36D1DC);  
+    background: linear-gradient(to left, #5B86E5, #36D1DC);
+    width: auto;
+    font-family: monospace;
+}
+
+.header-container {
+    padding-top: 10px;
+    font-size: 44px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-under {
+    width: 100%;
+    display: flex;
+    border-style: solid;
+    border-width: 4px;    
+}
