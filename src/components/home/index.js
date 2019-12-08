@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-export default class Login extends Component {
+import Blog from '../blog';
+
+export default class Home extends Component {
 
     render() {
         return (
-            <h2>Home</h2>
+            <div className="blogs-view">
+                <Blog/>
+                <Blog/>
+                <Blog/>
+                <Blog/>
+                <Blog/>
+                <Blog/>
+            </div>
         );
     } 
 }
