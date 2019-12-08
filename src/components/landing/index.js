@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from '../login';
 import Home from '../home';
+import Header from '../header';
 
 export default class Landing extends Component {
     
@@ -9,6 +10,7 @@ export default class Landing extends Component {
         return (
             <Router>
                 <div>
+                    <Header/>
                     <Switch>
                         <Route path="/login" component={Login}/>
                         <Route path="/" component={Home}/>
