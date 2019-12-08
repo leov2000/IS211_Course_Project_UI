@@ -35,7 +35,6 @@ body {
     height: 600px;
     display: flex;
     border: 1px solid white;
-
 }
 
 .blog-container:nth-of-type(1) {
