@@ -28,8 +28,13 @@ export default class Home extends Component {
         axios
             .get('/posts', { params: {topic} })
             .then(res => {
-                console.log(res)
-                this.setState({active: navItem});
+                const { data } = res;
+                console.log(res, 'RESPONSE');
+
+                this.setState({
+                    active: navItem,
+                    blogList: data
+                });
             });
     }
 
