@@ -16,7 +16,7 @@ export default class Login extends Component {
         const { user, password } = this.state;
         this.props.history.push({
             pathname: '/dashboard', 
-            state: { ...this.state }
+            state: { user }
         });
     }
 
@@ -34,8 +34,6 @@ export default class Login extends Component {
 
     render() {
         const { user, password } = this.state;
-        console.log(this.state, 'THE STATE');
-        console.log(this.props, 'THE PROPS')
 
         return (
             <div className="login-container">
