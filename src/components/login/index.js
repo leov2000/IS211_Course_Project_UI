@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class Login extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            form: {
+                user: ''
+            }
+        };
+    }
+
+    submitFormRequest(values) {
+        console.log(values, 'values here')
+        values.preventDefault();
+    }
 
     render() {
         return (
             <div className="login-container">
-                <div className="form-container">
+                <div className="login-form-container">
                     <h2>Login or Sign up!
                         <span className="mini-header-under"></span>
                     </h2>
-                    <form name="loginForm">
+                    <form name="loginForm" onSubmit={this.submitFormRequest}>
                         <div>
                             <div className='input-container'>
                                 <div>
@@ -24,7 +39,10 @@ export default class Login extends Component {
                                 <input type="password"/>
                             </div>
                         </div>
-                        <button className="form-submit-button">SUBMIT</button>
+                        <div className="form-submit-button">
+                            <span>SUBMIT</span>
+                        </div>
+                        {/* <button type="button" className="form-submit-button">SUBMIT</button> */}
                     </form>
                 </div>
             </div>
