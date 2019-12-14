@@ -23,15 +23,25 @@ export default class Home extends Component {
             });
     }
 
+    filterByTopic(navItem) {
+        const topic = navItem.toLowerCase();
+        axios
+            .get('/posts', { params: {topic} })
+            .then(res => {
+                console.log(res)
+                this.setState({active: navItem});
+            });
+    }
+
     render() {
-        const { blogList } = this.state;
+        const { blogList, active } = this.state;
         console.log(this.state, 'THE STATE')
         console.log(navConfig, 'NAV-CONFIG')
         return (
             <div className="blogs-view">
                 <div className="blog-nav-bar">
                 {
-                    navConfig.map(nav => <h3>{nav}</h3>)
+                    navConfig.map(nav => <h3  className={active === nav ? "blog-nav-item-active" : "blog-nav-item"} key={uniqueId()} onClick={() => this.filterByTopic(nav)} >{nav}</h3>)
                 }
                 </div>
                 {
