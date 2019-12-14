@@ -149,3 +149,15 @@ body {
     border-style: solid;
     border-width: 2px;    
 }
+
+.form-login-error {
+    color: orangered;
+}
+
+.mini-header-under-error {
+    width: 100%;
+    display: flex;
+    border-style: solid;
+    border-width: 2px;
+    color: orangered;
+}
