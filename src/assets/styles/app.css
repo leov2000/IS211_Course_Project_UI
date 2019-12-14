@@ -100,3 +100,13 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.blog-nav-item {
+    cursor: pointer;
+}
+
+.blog-nav-item-active {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: azure;
+}
