@@ -53,6 +53,8 @@ export default class Dashboard extends Component {
     }
 
     blogTemplate() {
+        const { category, isHidden } = this.state;
+        console.log(this.state, 'STATE FROM BLOG TEMPLATE');
         return (
             <div className="modal-container">
                 <div className="modal-header">
@@ -67,15 +69,26 @@ export default class Dashboard extends Component {
                     <div className="modal-drop-down-container">
                         <div className="modal-drop-down-item">
                             <span>Category</span>
-                            <select className="modal-drop-down" name="category" onChange={(e) => this.handleChange(e)}>
-                                {
-                                    categoryConfig.map(category => <option key={uniqueId()}  value={category.toLowerCase()}>{category}</option>)
-                                }
+                            <select className="modal-drop-down" value={ category } name="category" onChange={(e) => this.handleChange(e)}>
+                                <option value="all">All</option>
+                                <option value="sports">Sports</option>
+                                <option value="lifestyle">Lifestyle</option>
+                                <option value="politics">Politics</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="architecture">Architecture</option>
+                                <option value="local">Local</option>
+                                <option value="eats">Eats</option>
+                                <option value="home">Home</option>
+                                <option value="finance">Finance</option>
+                                
+                                {/* {
+                                    categoryConfig.map(category => <option key={uniqueId()} value={category.toLowerCase()}>{category}</option>)
+                                } */}
                             </select>
                         </div>
                         <div className="modal-drop-down-item">
                             <span>Hidden</span>
-                            <select className="modal-drop-down" name="isHidden" onChange={(e) => this.handleChange(e)}>
+                            <select className="modal-drop-down" value={ isHidden } name="isHidden" onChange={(e) => this.handleChange(e)}>
                                 <option  value="true">True</option>
                                 <option value="false">False</option>
                             </select>
