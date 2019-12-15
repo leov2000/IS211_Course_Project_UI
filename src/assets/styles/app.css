@@ -191,9 +191,13 @@ td {
     justify-content: space-around;
 }
 
-.admin-add-blog {
+.admin-add-blog-container {
     display: flex;
     justify-content: flex-end;
+}
+
+.admin-add-blog {
+    cursor: pointer;
 }
 
 .modal-container {
@@ -213,6 +217,7 @@ td {
     font-size: 30px;
     padding-right: 20px;
     padding-top: 12px;
+    cursor: pointer;
 }
 
 .modal-form {
