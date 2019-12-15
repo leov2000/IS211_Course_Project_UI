@@ -195,3 +195,65 @@ td {
     display: flex;
     justify-content: flex-end;
 }
+
+.modal-container {
+
+}
+
+.modal-title {
+    padding: 40px 0 0 40px; 
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-close-icon {
+    font-size: 30px;
+    padding-right: 20px;
+    padding-top: 12px;
+}
+
+.modal-form {
+    padding: 15px;
+}
+
+.modal-input {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.modal-drop-down-container {
+    display: flex;
+}
+
+.modal-drop-down-item {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-drop-down {
+    margin: 0 20px 15px 0;
+    padding: 5px;
+    height: 30px;
+}
+
+.admin-submit-button {
+    margin-top: 30px;
+    display: flex;
+    width: 95%;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid white;
+    background-color: lightgrey;
+    height: 30px;
+    align-items: center;
+}
+
+.modal-button {
+    display: flex;
+    justify-content: center;
+}
