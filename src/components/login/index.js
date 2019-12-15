@@ -20,11 +20,11 @@ export default class Login extends Component {
             .post('/signin', { user, password })
             .then(res => {
                 const { data } = res;
-                const { verified } = data;
+                const { verified, id } = data;
                 if (verified) {
                     this.props.history.push({
                         pathname: '/dashboard', 
-                        state: { user }
+                        state: { user, userId: id }
                     });
                 }
             })
