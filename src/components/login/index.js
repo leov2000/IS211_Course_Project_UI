@@ -19,11 +19,20 @@ export default class Login extends Component {
             axios
             .post('/signin', { user, password })
             .then(res => {
-                console.log(res, 'RESPONSE');
+                const { data } = res;
+                const { verified } = data;
+                if (verified) {
+                    this.props.history.push({
+                        pathname: '/dashboard', 
+                        state: { user }
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err, 'ERROR-AT-LOGIN');
+                this.setState({error: true});
             });
-        } else {
-            this.setState({error: true});
-        }
+        } 
     }
 
     handleUserInput(event) {
