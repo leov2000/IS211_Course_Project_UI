@@ -29,7 +29,6 @@ export default class Home extends Component {
             .get('/posts', { params: {topic} })
             .then(res => {
                 const { data } = res;
-                console.log(res, 'RESPONSE');
 
                 this.setState({
                     active: navItem,
@@ -40,8 +39,7 @@ export default class Home extends Component {
 
     render() {
         const { blogList, active } = this.state;
-        console.log(this.state, 'THE STATE')
-        console.log(navConfig, 'NAV-CONFIG')
+
         return (
             <div className="blogs-view">
                 <div className="blog-nav-bar">

@@ -6,7 +6,6 @@ import Header from '../header';
 import Dashboard from '../dashboard';
 
 export default class Landing extends Component {
-    
     render() {
         return (
             <Router>

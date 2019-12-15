@@ -14,10 +14,16 @@ export default class Login extends Component {
 
     submitFormRequest() {
         const { user, password } = this.state;
-        this.props.history.push({
-            pathname: '/dashboard', 
-            state: { user }
-        });
+
+        if(user && password) {
+            axios
+            .post('/signin', { user, password })
+            .then(res => {
+                console.log(res, 'RESPONSE');
+            });
+        } else {
+            this.setState({error: true});
+        }
     }
 
     handleUserInput(event) {
