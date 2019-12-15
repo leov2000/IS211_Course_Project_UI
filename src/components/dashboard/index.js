@@ -36,6 +36,12 @@ export default class Dashboard extends Component {
         console.log('delete');
     }
 
+    showModal() {
+        this.setState({
+            open: true
+        });
+    }
+
     closeModal() {
         this.setState({
             open: false
@@ -64,7 +70,7 @@ export default class Dashboard extends Component {
                     <div className="modal-container">
                         <div className="modal-header">
                             <h1 className="modal-title">Edit</h1>
-                            <span className="modal-close-icon">X</span>
+                            <span className="modal-close-icon" onClick={() => this.closeModal()}>X</span>
                         </div>
                         <div className="modal-form">
                             <div>
@@ -107,12 +113,12 @@ export default class Dashboard extends Component {
                     (<h2>SOMETHING WEIRD HAPPEN. PLEASE LOGIN FROM <a href="/login">login</a></h2>) :
                     (
                         <div className="dashboard-pane">
-                            <div>
-                                <div>
-                                    <h3 className="admin-add-blog">
+                            <div className="admin-add-blog-container">
+                                <span className="admin-add-blog" onClick={() => this.showModal()}>
+                                    <h3>
                                         Add Blog
                                     </h3>
-                                </div>
+                                </span>
                             </div>
                             <div className="admin-blog-container">
                                 <table className="admin-blog-table">
