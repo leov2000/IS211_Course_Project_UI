@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get } from 'lodash';
+import { get, uniqueId } from 'lodash';
 import axios from 'axios';
 
 export default class Dashboard extends Component {
@@ -25,6 +25,13 @@ export default class Dashboard extends Component {
                 });
         }
     }
+    editBlogPost() {
+        console.log('edit');
+    }
+
+    deleteBlogPost() {
+        console.log('delete');
+    }
 
     render() {
         const { location } = this.props;
@@ -46,20 +53,33 @@ export default class Dashboard extends Component {
                                     </span>
                                 </div>
                             </div>
-                            <div>
-                                <table>
+                            <div className="admin-blog-container">
+                                <table className="admin-blog-table">
                                     <caption>{user} Blog Posts</caption>
                                     <thead>
                                         <tr>
                                             <th>Title</th>
                                             <th>Content</th>
-                                            <th>Hide Post</th>
+                                            <th>Post Hidden</th>
                                             <th>Publish Date</th>
                                             <th>Category</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                     { blogPosts.map(blog => (
+                                         <tr key={uniqueId()}>
+                                             <td className="content-td" width="200" key={uniqueId()}> {blog.title} </td>
+                                             <td className="content-td" width="200" key={uniqueId()}> {blog.content} </td>
+                                             <td width="150" key={uniqueId()}> {blog.isHidden} </td>
+                                             <td width="150" key={uniqueId()}> {blog.pub_date} </td>
+                                             <td width="150"key={uniqueId()}> {blog.category} </td>
+                                             <td width="150" onClick={() => this.editBlogPost()} ><span>Edit</span></td>
+                                             <td width="150" onClick={() => this.deleteBlogPost()} ><span>Delete</span></td>
+                                         </tr>    
+                                        )) }
+                                    </tbody>
                                 </table>
                             </div>
                         </div>    
