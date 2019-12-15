@@ -167,3 +167,26 @@ body {
 .dashboard-pane {
     width: 100%;
 }
+
+td {
+    text-align: center;
+}
+
+.content-td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-blog-table, table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    margin-top: 40px;
+    padding-top: 25px;
+} 
+
+.admin-blog-container {
+    display: flex;
+    justify-content: space-around;
+}
