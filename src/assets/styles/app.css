@@ -163,3 +163,7 @@ body {
     border-width: 2px;
     color: orangered;
 }
+
+.dashboard-pane {
+    width: 100%;
+}

@@ -3,6 +3,12 @@ import { get } from 'lodash';
 import axios from 'axios';
 
 export default class Dashboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            blogPosts: []
+        };
+    }
 
     componentDidMount() {
         const { location } = this.props;
@@ -14,6 +20,8 @@ export default class Dashboard extends Component {
                 .get('/admin', { params: { user } })
                 .then(res => {
                     const { data } = res;
+                    
+                    this.setState({blogPosts: data});
                 });
         }
     }
@@ -22,15 +30,40 @@ export default class Dashboard extends Component {
         const { location } = this.props;
         const { state } = location;
         const user = get(state, 'user', false);
-        console.log(this.state, 'THE STATE');
-        console.log(this.props, 'THEPROPS');
-
+        const { blogPosts } = this.state;
+        console.log(blogPosts, 'BLOGPOSTS HERE')
         return (
             <div>
                 {
                     !user ? 
                     (<h2>SOMETHING WEIRD HAPPEN. PLEASE LOGIN FROM <a href="/login">login</a></h2>) :
-                    (<h2>DASHBOARD HERE</h2>)
+                    (
+                        <div className="dashboard-pane">
+                            <div>
+                                <div>
+                                    <span>
+                                        Add Blog
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <table>
+                                    <caption>{user} Blog Posts</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Content</th>
+                                            <th>Hide Post</th>
+                                            <th>Publish Date</th>
+                                            <th>Category</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>    
+                    )
                 }
             </div>
         );
