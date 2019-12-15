@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { get, uniqueId } from 'lodash';
 import axios from 'axios';
+import Popup from "reactjs-popup";
+console.log(Popup, 'POPUP HERE')
 
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            blogPosts: []
+            blogPosts: [],
+            open: true 
         };
     }
 
@@ -33,14 +36,35 @@ export default class Dashboard extends Component {
         console.log('delete');
     }
 
+    closeModal() {
+        this.setState({
+            open: false
+        });
+    }
+
     render() {
         const { location } = this.props;
         const { state } = location;
         const user = get(state, 'user', false);
         const { blogPosts } = this.state;
-        console.log(blogPosts, 'BLOGPOSTS HERE')
+        console.log(blogPosts, 'BLOGPOSTS HERE');
+        console.log(this.state, 'THE STATE HERE');
         return (
             <div>
+                <Popup
+                    open={this.state.open}
+                    onClose={() => this.closeModal()}
+                    contentStyle={{ 
+                        padding: "0px",
+                        border: "1px white solid",
+                        minHeight: "600px",
+                        background: "#36D1DC"  
+                     }}
+                >
+                    <div>
+                        <h1>hi hi hi</h1>
+                    </div>
+                </Popup>   
                 {
                     !user ? 
                     (<h2>SOMETHING WEIRD HAPPEN. PLEASE LOGIN FROM <a href="/login">login</a></h2>) :
