@@ -54,21 +54,46 @@ export default class Dashboard extends Component {
         return resetValues;
     }
 
-    handleFormSubmission() {
+    extractFormValues() {
         const { location } = this.props;
         const { state } = location;
         const { formValues } = this.state;
         const requestObject = { ...formValues, ...state};
+    }
+
+    handleFormSubmission() {
+        const requestObject = this.extractFormValues();
 
         axios
-        .post('/posts', { requestObject })
-        .then(res => {
-            console.log(res, 'RES');
-            this.closeModal();
+            .post('/posts', { requestObject })
+            .then(res => {
+                console.log(res, 'RES');
+                this.closeModal();
         })
     }
+
+    extractEditValues() {
+        const { editValue } = this.state;
+        const { post_id } = editValue;
+
+        return {
+            post_id
+        };
+    }
+
     handleEditFormSubmission() {
-        console.log('hi hi hi');
+        const formValues = this.extractFormValues();
+        const blogPostId = this.extractEditValues();
+        const requestObject = {...formValues, ...blogPostId};
+
+        axios
+            .put('/posts', { requestObject })
+            .then(res => {
+                console.log(res, 'RES');
+                this.closeModal();
+        })
+
+
     }
 
     editBlogTemplate() {
@@ -219,8 +244,6 @@ export default class Dashboard extends Component {
     }
 
     showEditBlogModal(triggerType, index, array) {
-        console.log(index, 'FROM SHOW EDIT');
-        console.log(array, 'FROM SHOW EDIT');
         const formValues = this.pluckValuesFromEdit(array[index]);
 
         this.setState({
@@ -268,7 +291,7 @@ export default class Dashboard extends Component {
                     }}
                 >
                     {
-                        triggerType === 'blog' ? this.blogTemplate() : triggerType === 'edit' ? this.editBlogTemplate() : null
+                        triggerType === 'blog' ? this.blogTemplate() : triggerType === 'edit' ? this.editBlogTemplate() : <div></div>
                     }
                 </Popup>
                 {
@@ -277,7 +300,7 @@ export default class Dashboard extends Component {
                         (
                             <div className="dashboard-pane">
                                 <div className="admin-add-blog-container">
-                                    <span className="admin-add-blog" onClick={() => this.showModal('blog')}>
+                                    <span className="admin-add-blog" onClick={() => this.showBlogModal('blog')}>
                                         <h3>
                                             Add Blog
                                     </h3>
