@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get, uniqueId } from 'lodash';
+import { get, uniqueId, every } from 'lodash';
 import axios from 'axios';
 import Popup from "reactjs-popup";
 import categoryConfig from '../../config/nav-config';
@@ -41,20 +41,36 @@ export default class Dashboard extends Component {
         const { name, value } = target;
         const { formValues } = this.state;
 
-        this.setState({ formValues: {...formValues, [name]: value} });
+        this.setState({ formValues: { ...formValues, [name]: value } });
     }
 
     clearFormState() {
         const { formValues } = this.state;
         const formKeys = Object.keys(formValues);
-        const resetValues = formKeys.reduce((prev, curr) => ({...prev, [curr]: ''}), {});
+        const resetValues = formKeys.reduce((prev, curr) => ({ ...prev, [curr]: '' }), {});
 
         return resetValues;
     }
 
+    handleFormSubmission() {
+        const { location } = this.props;
+        const { state } = location;
+        const { formValues } = this.state;
+        const requestObject = { ...formValues, ...state};
+
+        axios
+        .post('/posts', { requestObject })
+        .then(res => {
+            console.log(res, 'RES');
+            this.closeModal();
+        })
+    }
+
     blogTemplate() {
-        const { category, isHidden } = this.state;
-        console.log(this.state, 'STATE FROM BLOG TEMPLATE');
+        const { formValues } = this.state;
+        const { category, isHidden } = formValues;
+        const formResult = Object.values(formValues);
+
         return (
             <div className="modal-container">
                 <div className="modal-header">
@@ -69,7 +85,8 @@ export default class Dashboard extends Component {
                     <div className="modal-drop-down-container">
                         <div className="modal-drop-down-item">
                             <span>Category</span>
-                            <select className="modal-drop-down" value={ category } name="category" onChange={(e) => this.handleChange(e)}>
+                            <select className="modal-drop-down" value={category} name="category" onChange={(e) => this.handleChange(e)} required>
+                                <option value="">None</option>
                                 <option value="all">All</option>
                                 <option value="sports">Sports</option>
                                 <option value="lifestyle">Lifestyle</option>
@@ -80,32 +97,36 @@ export default class Dashboard extends Component {
                                 <option value="eats">Eats</option>
                                 <option value="home">Home</option>
                                 <option value="finance">Finance</option>
-                                
-                                {/* {
-                                    categoryConfig.map(category => <option key={uniqueId()} value={category.toLowerCase()}>{category}</option>)
-                                } */}
                             </select>
                         </div>
                         <div className="modal-drop-down-item">
                             <span>Hidden</span>
-                            <select className="modal-drop-down" value={ isHidden } name="isHidden" onChange={(e) => this.handleChange(e)}>
-                                <option  value="true">True</option>
+                            <select className="modal-drop-down" value={isHidden} name="isHidden" onChange={(e) => this.handleChange(e)} required>
+                                <option value="">None</option>
+                                <option value="true">True</option>
                                 <option value="false">False</option>
                             </select>
                         </div>
                     </div>
                     <div>
                         <span>Publish Date</span>
-                        <input className="modal-input" name="pub_date" type="date" onChange={(e) => this.handleChange(e)}/>
+                        <input className="modal-input" name="pub_date" type="date" onChange={(e) => this.handleChange(e)} />
                     </div>
                     <div>
                         <span>Content</span>
-                        <input className="modal-input" name="content" type="text" onChange={(e) => this.handleChange(e)}/>
+                        <input className="modal-input" name="content" type="text" onChange={(e) => this.handleChange(e)} />
                     </div>
                 </div>
-                <div className="modal-button">
-                    <span className="admin-submit-button">SUBMIT</span>
-                </div>
+                {
+                    every(formResult, Boolean) ?
+                        (<div className="modal-button">
+                            <span className="admin-submit-button" onClick={() => this.handleFormSubmission()}>SUBMIT</span>
+                        </div>) :
+                        (<div className="modal-button">
+                            <span className="admin-submit-button">FILL OUT ALL FIELDS</span>
+                        </div> 
+                        )
+                }
             </div>
         );
     }
