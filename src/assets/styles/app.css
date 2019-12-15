@@ -141,6 +141,8 @@ body {
     cursor: pointer;
     border: 1px solid white;
     background-color: lightgrey;
+    height: 30px;
+    align-items: center;
 }
 
 .mini-header-under {
