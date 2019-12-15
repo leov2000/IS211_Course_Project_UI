@@ -190,3 +190,8 @@ td {
     display: flex;
     justify-content: space-around;
 }
+
+.admin-add-blog {
+    display: flex;
+    justify-content: flex-end;
+}

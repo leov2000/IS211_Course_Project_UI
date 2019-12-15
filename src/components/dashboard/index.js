@@ -48,14 +48,14 @@ export default class Dashboard extends Component {
                         <div className="dashboard-pane">
                             <div>
                                 <div>
-                                    <span>
+                                    <h3 className="admin-add-blog">
                                         Add Blog
-                                    </span>
+                                    </h3>
                                 </div>
                             </div>
                             <div className="admin-blog-container">
                                 <table className="admin-blog-table">
-                                    <caption>{user} Blog Posts</caption>
+                                    <caption><h2>{user} Blog Posts</h2></caption>
                                     <thead>
                                         <tr>
                                             <th>Title</th>
