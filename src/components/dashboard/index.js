@@ -96,8 +96,13 @@ export default class Dashboard extends Component {
         axios
             .put('/posts', { requestObject })
             .then(res => {
-                console.log(res, 'RES');
-                this.closeModal();
+                const { data } = res;
+                const formValues = this.clearFormState();
+                this.setState({
+                    open: false,
+                    formValues,
+                    blogPosts: data
+                });
             });
     }
 
