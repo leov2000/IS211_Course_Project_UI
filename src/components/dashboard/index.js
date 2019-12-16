@@ -69,8 +69,13 @@ export default class Dashboard extends Component {
         axios
             .post('/posts', { requestObject })
             .then(res => {
-                console.log(res, 'RES');
-                this.closeModal();
+                const { data } = res;
+                const formValues = this.clearFormState();
+                this.setState({
+                    open: false,
+                    formValues,
+                    blogPosts: data
+                });
             })
     }
 
@@ -236,7 +241,6 @@ export default class Dashboard extends Component {
                             <span>Category</span>
                             <select className="modal-drop-down" value={category} name="category" onChange={(e) => this.handleChange(e)} required>
                                 <option value="">None</option>
-                                <option value="all">All</option>
                                 <option value="sports">Sports</option>
                                 <option value="lifestyle">Lifestyle</option>
                                 <option value="politics">Politics</option>
