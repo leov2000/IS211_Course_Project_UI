@@ -262,3 +262,8 @@ td {
     display: flex;
     justify-content: center;
 }
+
+.no-blog-message {
+    display: flex;
+    justify-content: center;
+}
