@@ -267,3 +267,7 @@ td {
     display: flex;
     justify-content: center;
 }
+
+.cursor-td-cell {
+    cursor: pointer;
+} 

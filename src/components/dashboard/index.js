@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get, uniqueId, every } from 'lodash';
+import { get, uniqueId, every, isEmpty } from 'lodash';
 import axios from 'axios';
 import Popup from "reactjs-popup";
 import categoryConfig from '../../config/nav-config';
@@ -58,7 +58,7 @@ export default class Dashboard extends Component {
         const { location } = this.props;
         const { state } = location;
         const { formValues } = this.state;
-        const requestObject = { ...formValues, ...state};
+        const requestObject = { ...formValues, ...state };
 
         return requestObject;
     }
@@ -71,7 +71,7 @@ export default class Dashboard extends Component {
             .then(res => {
                 console.log(res, 'RES');
                 this.closeModal();
-        })
+            })
     }
 
     extractEditValues() {
@@ -86,19 +86,72 @@ export default class Dashboard extends Component {
     handleEditFormSubmission() {
         const formValues = this.extractFormValues();
         const blogPostId = this.extractEditValues();
-        const requestObject = {...formValues, ...blogPostId};
+        const requestObject = { ...formValues, ...blogPostId };
 
         axios
             .put('/posts', { requestObject })
             .then(res => {
                 console.log(res, 'RES');
                 this.closeModal();
+            });
+    }
+
+    deleteBlogPost(index, array) {
+        const { location } = this.props;
+        const { state } = location;
+        const blogPost = array[index];
+        const { post_id } = blogPost;
+        const requestObject = { ...state, ...post_id }
+
+        axios
+            .delete('/posts', { requestObject })
+            .then(res => {
+                console.log(res, 'RES');
+            });
+    }
+
+    pluckValuesFromEdit(editObj) {
+        const { content, title, pub_date, category, isHidden } = editObj;
+
+        return {
+            content,
+            title,
+            pub_date,
+            category,
+            isHidden
+        }
+    }
+
+    showEditBlogModal(triggerType, index, array) {
+        const formValues = this.pluckValuesFromEdit(array[index]);
+
+        this.setState({
+            open: true,
+            triggerType,
+            editValue: array[index],
+            formValues
+        });
+    }
+
+    showBlogModal(triggerType) {
+        this.setState({
+            open: true,
+            triggerType
+        });
+    }
+
+    closeModal() {
+        const formValues = this.clearFormState();
+
+        this.setState({
+            open: false,
+            formValues
         });
     }
 
     editBlogTemplate() {
         const { formValues } = this.state;
-        const {content, title, pub_date, category, isHidden} = formValues;
+        const { content, title, pub_date, category, isHidden } = formValues;
         const formResult = Object.keys(formValues);
         console.log(this.state, 'THE STATE FROM EDIT');
 
@@ -111,7 +164,7 @@ export default class Dashboard extends Component {
                 <div className="modal-form">
                     <div>
                         <span>Title</span>
-                        <input className="modal-input" type="text" name="title" onChange={(e) => this.handleChange(e)} value={title}/>
+                        <input className="modal-input" type="text" name="title" onChange={(e) => this.handleChange(e)} value={title} />
                     </div>
                     <div className="modal-drop-down-container">
                         <div className="modal-drop-down-item">
@@ -141,11 +194,11 @@ export default class Dashboard extends Component {
                     </div>
                     <div>
                         <span>Publish Date</span>
-                        <input className="modal-input" name="pub_date" type="date" onChange={(e) => this.handleChange(e)} value={pub_date}/>
+                        <input className="modal-input" name="pub_date" type="date" onChange={(e) => this.handleChange(e)} value={pub_date} />
                     </div>
                     <div>
                         <span>Content</span>
-                        <input className="modal-input" name="content" type="text" onChange={(e) => this.handleChange(e)} value={content}/>
+                        <input className="modal-input" name="content" type="text" onChange={(e) => this.handleChange(e)} value={content} />
                     </div>
                 </div>
                 {
@@ -155,7 +208,7 @@ export default class Dashboard extends Component {
                         </div>) :
                         (<div className="modal-button">
                             <span className="admin-submit-button">FILL OUT ALL FIELDS</span>
-                        </div> 
+                        </div>
                         )
                 }
             </div>
@@ -220,66 +273,13 @@ export default class Dashboard extends Component {
                         </div>) :
                         (<div className="modal-button">
                             <span className="admin-submit-button">FILL OUT ALL FIELDS</span>
-                        </div> 
+                        </div>
                         )
                 }
             </div>
         );
     }
-
-    deleteBlogPost(index, array) {
-        const { location } = this.props;
-        const { state } = location;
-        const blogPost = array[index];
-        const { post_id } = blogPost;
-        const requestObject = {...state, ...post_id}
-
-        axios
-            .delete('/posts', { requestObject })
-            .then(res => {
-                console.log(res, 'RES');
-        });
-    }
-
-    pluckValuesFromEdit(editObj) {
-        const {content, title, pub_date, category, isHidden} = editObj;
-
-        return {
-            content,
-            title,
-            pub_date,
-            category,
-            isHidden
-        }
-    }
-
-    showEditBlogModal(triggerType, index, array) {
-        const formValues = this.pluckValuesFromEdit(array[index]);
-
-        this.setState({
-            open: true,
-            triggerType,
-            editValue: array[index],
-            formValues
-        });    
-    }
-
-    showBlogModal(triggerType) {
-        this.setState({
-            open: true,
-            triggerType
-        });
-    }
-
-    closeModal() {
-        const formValues = this.clearFormState();
-
-        this.setState({
-            open: false,
-            formValues
-        });
-    }
-
+    
     render() {
         const { location } = this.props;
         const { state } = location;
@@ -314,35 +314,39 @@ export default class Dashboard extends Component {
                                     </h3>
                                     </span>
                                 </div>
-                                <div className="admin-blog-container">
-                                    <table className="admin-blog-table">
-                                        <caption><h2>{user} Blog Posts</h2></caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Content</th>
-                                                <th>Post Hidden</th>
-                                                <th>Publish Date</th>
-                                                <th>Category</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {blogPosts.map((blog, idx, arr) => (
-                                                <tr key={uniqueId()}>
-                                                    <td className="content-td" width="200" key={uniqueId()}> {blog.title} </td>
-                                                    <td className="content-td" width="200" key={uniqueId()}> {blog.content} </td>
-                                                    <td width="150" key={uniqueId()}> {blog.isHidden} </td>
-                                                    <td width="150" key={uniqueId()}> {blog.pub_date} </td>
-                                                    <td width="150" key={uniqueId()}> {blog.category} </td>
-                                                    <td width="150" onClick={() => this.showEditBlogModal('edit', idx, arr)} ><span>Edit</span></td>
-                                                    <td width="150" onClick={() => this.deleteBlogPost(idx, arr)} ><span>Delete</span></td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                {
+                                    !isEmpty(blogPosts) ?
+                                        (<div className="admin-blog-container">
+                                            <table className="admin-blog-table">
+                                                <caption><h2>{user} Blog Posts</h2></caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>Content</th>
+                                                        <th>Post Hidden</th>
+                                                        <th>Publish Date</th>
+                                                        <th>Category</th>
+                                                        <th>Edit</th>
+                                                        <th>Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {blogPosts.map((blog, idx, arr) => (
+                                                        <tr key={uniqueId()}>
+                                                            <td className="content-td" width="200" key={uniqueId()}> {blog.title} </td>
+                                                            <td className="content-td" width="200" key={uniqueId()}> {blog.content} </td>
+                                                            <td width="150" key={uniqueId()}> {blog.isHidden} </td>
+                                                            <td width="150" key={uniqueId()}> {blog.pub_date} </td>
+                                                            <td width="150" key={uniqueId()}> {blog.category} </td>
+                                                            <td width="150" className="cursor-td-cell" onClick={() => this.showEditBlogModal('edit', idx, arr)} ><span>Edit</span></td>
+                                                            <td width="150" className="cursor-td-cell" onClick={() => this.deleteBlogPost(idx, arr)} ><span>Delete</span></td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>) :
+                                        (<div className="no-blog-message"><h2>You Currently Have No Blog Posts</h2></div>)
+                                }
                             </div>
                         )
                 }
