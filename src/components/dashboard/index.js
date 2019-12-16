@@ -59,6 +59,8 @@ export default class Dashboard extends Component {
         const { state } = location;
         const { formValues } = this.state;
         const requestObject = { ...formValues, ...state};
+
+        return requestObject;
     }
 
     handleFormSubmission() {
@@ -91,9 +93,7 @@ export default class Dashboard extends Component {
             .then(res => {
                 console.log(res, 'RES');
                 this.closeModal();
-        })
-
-
+        });
     }
 
     editBlogTemplate() {
@@ -227,8 +227,18 @@ export default class Dashboard extends Component {
         );
     }
 
-    deleteBlogPost() {
-        console.log('delete');
+    deleteBlogPost(index, array) {
+        const { location } = this.props;
+        const { state } = location;
+        const blogPost = array[index];
+        const { post_id } = blogPost;
+        const requestObject = {...state, ...post_id}
+
+        axios
+            .delete('/posts', { requestObject })
+            .then(res => {
+                console.log(res, 'RES');
+        });
     }
 
     pluckValuesFromEdit(editObj) {
@@ -275,8 +285,6 @@ export default class Dashboard extends Component {
         const { state } = location;
         const user = get(state, 'user', false);
         const { blogPosts, triggerType } = this.state;
-        console.log(blogPosts, 'BLOGPOSTS HERE');
-        console.log(this.state, 'THE STATE HERE');
 
         return (
             <div>
@@ -329,7 +337,7 @@ export default class Dashboard extends Component {
                                                     <td width="150" key={uniqueId()}> {blog.pub_date} </td>
                                                     <td width="150" key={uniqueId()}> {blog.category} </td>
                                                     <td width="150" onClick={() => this.showEditBlogModal('edit', idx, arr)} ><span>Edit</span></td>
-                                                    <td width="150" onClick={() => this.deleteBlogPost()} ><span>Delete</span></td>
+                                                    <td width="150" onClick={() => this.deleteBlogPost(idx, arr)} ><span>Delete</span></td>
                                                 </tr>
                                             ))}
                                         </tbody>
