@@ -106,12 +106,14 @@ export default class Dashboard extends Component {
         const { state } = location;
         const blogPost = array[index];
         const { post_id } = blogPost;
-        const requestObject = { ...state, ...post_id }
+        const requestObject = { ...state, post_id }
 
         axios
-            .delete('/posts', { requestObject })
+            .delete('/posts', { data: { requestObject } })
             .then(res => {
                 console.log(res, 'RES');
+                const { data } = res;
+                this.setState({blogPosts: data});
             });
     }
 
