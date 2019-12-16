@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { get, uniqueId, every, isEmpty } from 'lodash';
 import axios from 'axios';
 import Popup from "reactjs-popup";
-import categoryConfig from '../../config/nav-config';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -116,7 +115,6 @@ export default class Dashboard extends Component {
         axios
             .delete('/posts', { data: { requestObject } })
             .then(res => {
-                console.log(res, 'RES');
                 const { data } = res;
                 this.setState({blogPosts: data});
             });
@@ -165,7 +163,6 @@ export default class Dashboard extends Component {
         const { formValues } = this.state;
         const { content, title, pub_date, category, isHidden } = formValues;
         const formResult = Object.keys(formValues);
-        console.log(this.state, 'THE STATE FROM EDIT');
 
         return (
             <div className="modal-container">
